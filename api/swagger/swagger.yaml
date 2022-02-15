@@ -175,7 +175,7 @@ paths:
           description: Id role a actualizar
           required: true
           schema:
-            type: integer
+            type: integer 
       requestBody:
         description: Data to update role
         required: true
