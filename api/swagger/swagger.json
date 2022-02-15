@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
      "version": "1.0.0",
-     "title": "Swagger Prueba"
+     "title": "Backend Servicios"
   },
   "servers": [
      {
@@ -29,15 +29,22 @@
               }
            }
         },
-        "pet": {
+        "roleNewOrUpdated": {
            "type": "object",
            "properties": {
-              "identificador": {
-                 "type": "integer",
-                 "format": "int64"
+              "id": {
+                 "type": "integer"
               },
               "name": {
                  "type": "string"
+              },
+              "updatedAt": {
+                 "type": "string",
+                 "format": "date-time"
+              },
+              "createdAt": {
+                 "type": "string",
+                 "format": "date-time"
               }
            }
         },
@@ -103,6 +110,9 @@
      "responses": {
         "UnauthorizedError": {
            "description": "Access token is missing or invalid"
+        },
+        "InvalidParameterError": {
+           "description": "Any error with parameter or no exist reference"
         }
      }
   },
@@ -120,7 +130,7 @@
            ],
            "security": [],
            "requestBody": {
-              "description": "data to login user",
+              "description": "Data to login user",
               "required": true,
               "content": {
                  "application/json": {
@@ -168,6 +178,99 @@
                        }
                     }
                  }
+              },
+              "401": {
+                 "$ref": "#/components/responses/UnauthorizedError"
+              }
+           }
+        },
+        "post": {
+           "summary": "Insert new Role",
+           "tags": [
+              "Insert new role"
+           ],
+           "requestBody": {
+              "description": "Data to add new role",
+              "required": true,
+              "content": {
+                 "application/json": {
+                    "schema": {
+                       "$ref": "#/components/schemas/role"
+                    }
+                 }
+              }
+           },
+           "security": [
+              {
+                 "bearerAuth": []
+              }
+           ],
+           "responses": {
+              "200": {
+                 "description": "New role created",
+                 "content": {
+                    "application/json": {
+                       "schema": {
+                          "$ref": "#/components/schemas/roleNewOrUpdated"
+                       }
+                    }
+                 }
+              },
+              "400": {
+                 "$ref": "#/components/responses/InvalidParameterError"
+              },
+              "401": {
+                 "$ref": "#/components/responses/UnauthorizedError"
+              }
+           }
+        }
+     },
+     "/role/{roleId}": {
+        "put": {
+           "summary": "Update role",
+           "tags": [
+              "Update exist role"
+           ],
+           "parameters": [
+              {
+                 "name": "roleId",
+                 "in": "path",
+                 "description": "Id role a actualizar",
+                 "required": true,
+                 "schema": {
+                    "type": "integer"
+                 }
+              }
+           ],
+           "requestBody": {
+              "description": "Data to update role",
+              "required": true,
+              "content": {
+                 "application/json": {
+                    "schema": {
+                       "$ref": "#/components/schemas/role"
+                    }
+                 }
+              }
+           },
+           "security": [
+              {
+                 "bearerAuth": []
+              }
+           ],
+           "responses": {
+              "200": {
+                 "description": "Role updatedd",
+                 "content": {
+                    "application/json": {
+                       "schema": {
+                          "$ref": "#/components/schemas/roleNewOrUpdated"
+                       }
+                    }
+                 }
+              },
+              "400": {
+                 "$ref": "#/components/responses/InvalidParameterError"
               },
               "401": {
                  "$ref": "#/components/responses/UnauthorizedError"
