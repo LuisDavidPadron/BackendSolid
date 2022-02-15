@@ -6,6 +6,6 @@ import { checkRoles } from '../middlewares'
 
 export default (router: Router): void => {
   router.post('/role', passport.authenticate('jwt', { session: false }), checkRoles('Admin'), AdapterRoutes(makeRegisterRoleController()))
-  router.get('/roles', passport.authenticate('jwt', { session: false }), checkRoles('Admin'), AdapterRoutes(getRoleController()))
+  router.get('/role', passport.authenticate('jwt', { session: false }), checkRoles('Admin'), AdapterRoutes(getRoleController()))
   router.put('/role/:id', passport.authenticate('jwt', { session: false }), checkRoles('Admin'), AdapterRoutes(updateRoleController()))
 }
